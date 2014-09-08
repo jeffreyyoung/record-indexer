@@ -1,0 +1,71 @@
+STUFF TODO:
+    check for valid user credentials
+    close all statements, connections and result sets
+    download batch, not output failed when project is out of range
+	submit batch, not output failed when batch is out of range
+	get fields breaks when letters are entered
+
+
+
+
+drop table if exists user;
+drop table if exists project;
+drop table if exists field;
+drop table if exists batch;
+drop table if exists cell;
+
+create table project
+(
+	id integer primary key autoincrement,
+	title text not null,
+	fieldsperimage integer not null,
+	recordsperimage integer not null,
+	firstycoord integer not null,
+	recordheight integer not null
+);
+
+create table field
+(
+	id integer primary key autoincrement,
+	projectid integer not null,
+	relativeid integer not null,
+	knowndata text not null,
+	title text not null,
+	width integer not null,
+	xcoord integer not null
+);
+
+create table batch
+(
+	id integer primary key autoincrement,
+	imageurl text not null,
+	projectid integer not null,
+	isavailable integer not null default 1
+);
+
+create table cell
+(
+	id integer primary key autoincrement,
+	batchid integer not null,
+	fieldid integer not null,
+	relativeid integer not null,
+	recordnum integer not null,
+	value text not null
+);
+
+create table user
+(
+	id integer primary key autoincrement,
+	username text not null unique,
+	password text not null,
+	firstname text not null,
+	lastname text not null,
+	email text not null,
+	recordsindexed integer,
+	batchid integer
+);
+
+INSERT INTO USER 
+(username, password, firstname, lastname, email, recordsindexed, batchid) 
+VALUES ('asdf', 'asdf', 'asdf', 'asdf', 'asdf', 0, -1)
+
